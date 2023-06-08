@@ -1,237 +1,237 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: '2010-09-09' 
 Description: CloudFormation to create ALB, EC2, RDS
-Resources:
-  ###VPC###
-  VPC:
+Resources: 
+  ###VPC### 
+  VPC: 
     Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: '10.0.0.0/16'
+    Properties: 
+      CidrBlock: '10.0.0.0/16' 
       EnableDnsSupport: true
       EnableDnsHostnames: true
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-VPC
-
-  ###InternetGateway###
-  InternetGateway:
+          Value: !Sub tomizawa-VPC
+ 
+  ###InternetGateway### 
+  InternetGateway: 
     Type: AWS::EC2::InternetGateway
-    Properties:
-      Tags:
+    Properties: 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-IGW
-  VPCGatewayAttachment:
+          Value: !Sub tomizawa-IGW
+  VPCGatewayAttachment: 
     Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
-  Route:
+  Route: 
     Type: AWS::EC2::Route
-    Properties:
+    Properties: 
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
-
-  ###RouteTable###
-  PublicRouteTable:
+ 
+  ###RouteTable### 
+  PublicRouteTable: 
     Type: AWS::EC2::RouteTable
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PublicRouteTable
-
-  ###RouteTable###
-  PrivateRouteTable:
+          Value: !Sub tomizawa-PublicRouteTable
+ 
+  ###RouteTable### 
+  PrivateRouteTable: 
     Type: AWS::EC2::RouteTable
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateRouteTable
-
-  ###Subnet###
-  PublicSubnet1A:
+          Value: !Sub tomizawa-PrivateRouteTable
+ 
+  ###Subnet### 
+  PublicSubnet1A: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      CidrBlock: '10.0.0.0/20'
-      AvailabilityZone: 'ap-northeast-1a'
-      Tags:
+      CidrBlock: '10.0.0.0/20' 
+      AvailabilityZone: 'ap-northeast-1a' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomziawa-PublicSubnet1A
-
-  PublicSubnet1ARouteTableAssociation:
+          Value: !Sub tomziawa-PublicSubnet1A
+ 
+  PublicSubnet1ARouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PublicSubnet1A
       RouteTableId: !Ref PublicRouteTable
-
-  PublicSubnet2C:
+ 
+  PublicSubnet2C: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      CidrBlock: '10.0.16.0/20'
-      AvailabilityZone: 'ap-northeast-1c'
-      Tags:
+      CidrBlock: '10.0.16.0/20' 
+      AvailabilityZone: 'ap-northeast-1c' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PublicSubnet2C
-
-  PublicSubnet2CRouteTableAssociation:
+          Value: !Sub tomizawa-PublicSubnet2C
+ 
+  PublicSubnet2CRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PublicSubnet2C
       RouteTableId: !Ref PublicRouteTable
-
-  PublicSubnet3D:
+ 
+  PublicSubnet3D: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      CidrBlock: '10.0.32.0/20'
-      AvailabilityZone: 'ap-northeast-1d'
-      Tags:
+      CidrBlock: '10.0.32.0/20' 
+      AvailabilityZone: 'ap-northeast-1d' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PublicSubnet3D
-
-  PublicSubnet3DRouteTableAssociation:
+          Value: !Sub tomizawa-PublicSubnet3D
+ 
+  PublicSubnet3DRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PublicSubnet3D
       RouteTableId: !Ref PublicRouteTable
-
-  PrivateSubnet1A:
+ 
+  PrivateSubnet1A: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.128.0/20
-      AvailabilityZone: 'ap-northeast-1a'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1a' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet1A
-
-  PrivateSubnetRouteTableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet1A
+ 
+  PrivateSubnetRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet1A
       RouteTableId: !Ref PrivateRouteTable
-
-  PrivateSubnet4A:
+ 
+  PrivateSubnet4A: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.176.0/20
-      AvailabilityZone: 'ap-northeast-1a'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1a' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet4A
-
-  PrivateSubnetRoute4TableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet4A
+ 
+  PrivateSubnetRoute4TableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet4A
       RouteTableId: !Ref PrivateRouteTable
-
-  PrivateSubnet2C:
+ 
+  PrivateSubnet2C: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.144.0/20
-      AvailabilityZone: 'ap-northeast-1c'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1c' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet2C
-
-  PrivateSubnet2CRouteTableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet2C
+ 
+  PrivateSubnet2CRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet2C
       RouteTableId: !Ref PrivateRouteTable
-
-  PrivateSubnet5C:
+ 
+  PrivateSubnet5C: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.192.0/20
-      AvailabilityZone: 'ap-northeast-1c'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1c' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet5C
-
-  PrivateSubnet5CRouteTableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet5C
+ 
+  PrivateSubnet5CRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet5C
       RouteTableId: !Ref PrivateRouteTable
-
-  PrivateSubnet3D:
+ 
+  PrivateSubnet3D: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.160.0/20
-      AvailabilityZone: 'ap-northeast-1d'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1d' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet3D
-
-  PrivateSubnet3DRouteTableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet3D
+ 
+  PrivateSubnet3DRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet3D
       RouteTableId: !Ref PrivateRouteTable
-
-  PrivateSubnet6D:
+ 
+  PrivateSubnet6D: 
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
       CidrBlock: 10.0.208.0/20
-      AvailabilityZone: 'ap-northeast-1d'
-      Tags:
+      AvailabilityZone: 'ap-northeast-1d' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-PrivateSubnet6D
-
-  PrivateSubnet6DRouteTableAssociation:
+          Value: !Sub tomizawa-PrivateSubnet6D
+ 
+  PrivateSubnet6DRouteTableAssociation: 
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref PrivateSubnet6D
       RouteTableId: !Ref PrivateRouteTable
-
-  ###SecurityGroup(ALB)
-  SecurityGroupALB:
+ 
+  ###SecurityGroup(ALB) 
+  SecurityGroupALB: 
     Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable HTTP access to ALB and EC2 instances'
+    Properties: 
+      GroupDescription: 'Enable HTTP access to ALB and EC2 instances' 
       VpcId: !Ref VPC
-      SecurityGroupIngress:
+      SecurityGroupIngress: 
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
-          CidrIp: '0.0.0.0/0'
+          CidrIp: '0.0.0.0/0' 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: '157.205.81.158/32'
-      SecurityGroupEgress: 
-        - IpProtocol: "-1"
+          CidrIp: '157.205.81.158/32' 
+      SecurityGroupEgress:  
+        - IpProtocol: "-1" 
           FromPort: 0
           ToPort: 65535
-          CidrIp: 0.0.0.0/0         
-      Tags:
+          CidrIp: 0.0.0.0/0          
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-SecurityGroupALB
-
-  ###EC2Instance###
-  EC2Instance:
+          Value: !Sub tomizawa-SecurityGroupALB
+ 
+  ###EC2Instance### 
+  EC2Instance: 
     Type: AWS::EC2::Instance
-    Properties:
+    Properties: 
       ImageId: ami-07c2a88388bb80eb0 #Amazon Linux2
       InstanceType: t2.micro
-      NetworkInterfaces:
-        - AssociatePublicIpAddress: "true"
-          DeviceIndex: "0"
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true" 
+          DeviceIndex: "0" 
           SubnetId: !Ref PublicSubnet1A
-          GroupSet: 
+          GroupSet:  
             - !Ref SecurityGroupEC2
-      UserData: 
-        Fn::Base64: |
+      UserData:  
+        Fn::Base64: | 
           #!/bin/bash
           yum update -y
           yum upgrade -y
@@ -240,63 +240,63 @@ Resources:
           systemctl start httpd
           touch /var/www/html/index.html
           echo "ALB and EC2 are working fine!" > /var/www/html/index.html
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-EC2Instance
-
-  ###SecurityGroup(EC2)
-  SecurityGroupEC2:
+          Value: !Sub tomizawa-EC2Instance
+ 
+  ###SecurityGroup(EC2) 
+  SecurityGroupEC2: 
     Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable SSH access to EC2 instance'
+    Properties: 
+      GroupDescription: 'Enable SSH access to EC2 instance' 
       VpcId: !Ref VPC
-      SecurityGroupIngress:
+      SecurityGroupIngress: 
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: '157.205.81.158/32'
-      Tags:
+          CidrIp: '157.205.81.158/32' 
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-SecurityGroupEC2
-
-  ###LoadBalancer###
-  LoadBalancer:
+          Value: !Sub tomizawa-SecurityGroupEC2
+ 
+  ###LoadBalancer### 
+  LoadBalancer: 
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Name: !Sub $tomizawa-LoadBalancer
+    Properties: 
+      Name: !Sub tomizawa-LoadBalancer
       Scheme: internet-facing
-      Subnets:
+      Subnets: 
         - !Ref PublicSubnet1A
         - !Ref PublicSubnet2C
         - !Ref PublicSubnet3D
-      SecurityGroups:
+      SecurityGroups: 
         - !Ref SecurityGroupALB
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-LoadBalancer
-
-  ###TargetGroup###
-  TargetGroup:
+          Value: !Sub tomizawa-LoadBalancer
+ 
+  ###TargetGroup### 
+  TargetGroup: 
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      Name: !Sub $tomizawa-TargetGroup
+    Properties: 
+      Name: !Sub tomizawa-TargetGroup
       Port: 80
       Protocol: HTTP
       TargetType: instance
-      Targets:
+      Targets: 
         - Id: !Ref EC2Instance
           Port: 80
       VpcId: !Ref VPC
-      Tags:
+      Tags: 
         - Key: Name
-          Value: !Sub $tomizawa-TargetGroup
-
-  LoadBalancerListener:
+          Value: !Sub tomizawa-TargetGroup
+ 
+  LoadBalancerListener: 
     Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
+    Properties: 
       LoadBalancerArn: !Ref LoadBalancer
       Port: 80
       Protocol: HTTP
-      DefaultActions:
+      DefaultActions: 
         - Type: forward
           TargetGroupArn: !Ref TargetGroup
