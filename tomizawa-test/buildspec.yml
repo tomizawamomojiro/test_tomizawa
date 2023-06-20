@@ -1,0 +1,15 @@
+      - terraform init
+      - terraform apply -var "s3_bucket_name=cloudfront-test-mizuno" -var "s3_key=terraform_function.zip"
+
+
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  build:
+    commands:
+      - cd src
+      - zip -r cf_function.zip *
+      - aws s3 cp cf_function.zip s3://cloudfront-tomizawa-test
+      - aws cloudformation deploy --template-file C:\Users\momojirou-tomizawa\tomizawa-test\src\cf.yml --s3-bucket cloudfront-tomizawa-test
