@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo "Installing terraform"
+
+      #- sudo yum install git -y
+      - git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+      - ln -s ~/.tfenv/bin/* /usr/local/bin
+      - tfenv install 1.4.6
+      - tfenv use 1.4.6
+      - terraform --version
+
+  pre_build:
+    commands:
+      - echo "Terraform Init and Plan"
+      - cd src
+      - terraform init
+      - terraform plan -out=tfplan
+
+  build:
+    commands:
+      - echo "Terraform Apply"
+      - terraform apply -auto-approve tfplan
+#      - echo "Terraform destroy"
+#      - terraform destroy -auto-approve
